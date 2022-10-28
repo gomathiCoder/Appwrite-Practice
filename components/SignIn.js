@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from 'react-native';
+import account from '../config/index';
 
 export default function SignIn({navigation}) {
   const [alert, setAlert] = useState('');
@@ -15,6 +16,14 @@ export default function SignIn({navigation}) {
 
    function handleSignInSubmit() {
     //Code to SignIn using Email and Password
+    account
+    .createEmailSession(email,password)
+    .then((response) => {
+      if(response.current){
+        navigation.replace("Dashboard");
+      }
+    },
+    (error) => setAlert(error.message));
    }
 
   return (
