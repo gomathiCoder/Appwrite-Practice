@@ -5,19 +5,20 @@ import {
   TextInput,
   Button,
   Text,
+  View
 } from 'react-native';
 
-export default function SignIn() {
+export default function SignIn({navigation}) {
   const [alert, setAlert] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-   function handleSubmit() {
+   function handleSignInSubmit() {
     //Code to SignIn using Email and Password
    }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.centerContainer}>
       <Text>{alert}</Text>
       <TextInput
         style={styles.input}
@@ -31,7 +32,12 @@ export default function SignIn() {
         onChangeText={namePassword => setPassword(namePassword)}
         secureTextEntry
       />
-      <Button title="Sign In" onPress={() => handleSubmit()} />
+      <View style={{margin:10}}>
+        <Button title="Sign In" onPress={() => handleSignInSubmit()} />
+      </View>
+      <View style={{margin:10}}>
+        <Button title="Sign Up" onPress={() => navigation.replace('SignUp')} />
+      </View>
     </SafeAreaView>
   );
 }

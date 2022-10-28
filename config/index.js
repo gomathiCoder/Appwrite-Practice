@@ -1,4 +1,4 @@
-import { Client, Appwrite, Account} from 'appwrite';
+import { Client, Account} from 'appwrite';
 
 const client = new Client();
 const account = new Account(client);

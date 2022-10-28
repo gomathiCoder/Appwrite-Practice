@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, View, TextInput, Button, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TextInput, Button, Text, Alert } from 'react-native';
+import account from '../config/index';
 
-export default function SignUp({onChangeLoggedIn}){
+export default function SignUp({navigation}){
     const [alert, setAlert] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -9,6 +10,24 @@ export default function SignUp({onChangeLoggedIn}){
 
     function handleSubmit(){
         //Code to SignUp for new Account
+        account
+        .create(name,email,password,name)
+        .then((response) => {
+            if(response.status){
+                Alert.alert(
+                    "Success",
+                    "User account is created Successfully. Please SignIn",
+                    [{
+                        text:"OK",
+                        onPress:(() => navigation.replace("SignIn"))
+                    }]
+                )
+            }
+        },
+        (error) => {
+            setAlert(error.message);
+        });
+
     }
 
     return(
