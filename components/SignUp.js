@@ -12,8 +12,7 @@ export default function SignUp({navigation}){
         //Code to SignUp for new Account
         account
         .create(name,email,password,name)
-        .then((response) => {
-            if(response.status){
+        .then(() => {
                 Alert.alert(
                     "Success",
                     "User account is created Successfully. Please SignIn",
@@ -22,7 +21,6 @@ export default function SignUp({navigation}){
                         onPress:(() => navigation.replace("SignIn"))
                     }]
                 )
-            }
         },
         (error) => {
             setAlert(error.message);

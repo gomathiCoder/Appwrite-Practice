@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme":"practice",
     "name": "appwrite-practice",
     "slug": "appwrite-practice",
     "version": "1.0.0",

@@ -7,11 +7,7 @@ export default function Dashboard({navigation}){
     function handleSignOutSubmit(){
         account
         .deleteSession('current')
-        .then(response => {
-            if(!response.message){
-                navigation.replace("SignIn");
-            }
-        },
+        .then(() => navigation.replace("SignIn"),
         error => console.log(error))
     }
 
