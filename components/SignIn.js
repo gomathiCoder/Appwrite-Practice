@@ -13,26 +13,30 @@ import {
 import account from '../config/index';
 
 export default function SignIn({navigation}) {
-  const [alert, setAlert] = useState('');
+  const [signInError, setSignInError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
-  const [error, setError] = useState('');
+  const [recoverySuccess, setRecoverySuccess] = useState('');
+  const [recoveryError, setRecoveryError] = useState('');
 
-   function handleSignInSubmit() {
+   async function handleSignInSubmit() {
     //Code to SignIn using Email and Password
-    account
+    await account
     .createEmailSession(email,password)
     .then(() => navigation.replace("Dashboard"),
-    (error) => setAlert(error.message));
+    (error) => setSignInError(error.message));
    }
 
-   function handlePasswordRecovery(){
-      account
+   async function handlePasswordRecovery(){
+      await account
       .createRecovery(email,'http://localhost:19006/ResetPassword')
-      .then(response => console.log(response),
-      error => setError(error.message))
-   }
+      .then(() => {
+        setRecoveryError('');
+        setRecoverySuccess("Reset password link sent to your mail id. Please check.")
+      },
+      error => setRecoveryError(error.message)
+   )};
 
   return (
     <SafeAreaView style={styles.centerContainer}>
@@ -44,24 +48,30 @@ export default function SignIn({navigation}) {
           onChangeText={nameEmail => setEmail(nameEmail)}
           keyboardType='email-address'
           />
-          <Text style={{color:'red'}}>{error}</Text>
-          <View style={{margin:10}}>
-            <Button title="Send email" onPress={handlePasswordRecovery} />
+          <Text style={{color:'green'}}>{recoverySuccess}</Text>
+          <Text style={{color:'red'}}>{recoveryError}</Text>
+          <View style={{flexDirection:'row', margin:10}}>
+            <View>
+              <Button title="Send email" onPress={handlePasswordRecovery} />
+            </View>
+            <View style={{marginLeft:20}}>
+              <Button title="Back" onPress={() => setModalOpen(false)} />
+            </View>
           </View>
         </View>
       </Modal>
 
-      <Text>{alert}</Text>
+      <Text>{signInError}</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
-        onChangeText={nameEmail => setEmail(nameEmail)}
+        onChangeText={Email => setEmail(Email)}
         keyboardType='email-address'
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
-        onChangeText={namePassword => setPassword(namePassword)}
+        onChangeText={Password => setPassword(Password)}
         secureTextEntry
       />
   

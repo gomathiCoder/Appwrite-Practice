@@ -1,25 +1,26 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, StyleSheet, Button} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Button, Alert} from 'react-native';
 import * as Linking from 'expo-linking';
 import account from '../config';
 
-export default function ResetPassword(){
+export default function ResetPassword({navigation}){
     const [password, setPassword] =useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [currentUrl,setCurrentUrl] =useState('');
+    const [resetStatus, setResetStatus] =useState('');
 
     Linking.getInitialURL()
     .then(url => setCurrentUrl(url));
 
-    function handleResetPassword(){
+    async function handleResetPassword(){
         const url  = new URL(currentUrl);  
         const urlParams = new URLSearchParams(url.search);
         const userId = urlParams.get('userId');
         const secret = urlParams.get('secret');
         
-        account
+        await account
         .updateRecovery(userId, secret, password, confirmPassword)
-        .then(response => console.log(response),
+        .then( () => setResetStatus("Password changed Successfully."),
         error => console.log(error.message));
     }
 
@@ -37,8 +38,14 @@ export default function ResetPassword(){
                 onChangeText={confirmPassword => setConfirmPassword(confirmPassword)}
                 secureTextEntry
             />
-            <View style={{margin:10}}>
-                <Button title="Reset Password" onPress={handleResetPassword}/>
+            <Text>{resetStatus}</Text>
+            <View style={{flexDirection:'row'}} >
+                <View>
+                    <Button title="Reset Password" onPress={handleResetPassword}/>
+                </View>
+                <View style={{marginLeft:20}}>
+                    <Button title="Back" onPress={() => navigation.replace('SignIn')}/>
+                </View>
             </View>
         </View>
     );

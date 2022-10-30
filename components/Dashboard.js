@@ -1,8 +1,21 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {View, Text, StyleSheet, Button} from 'react-native';
 import account from "../config/index";
 
 export default function Dashboard({navigation}){
+
+    const [user, setUser] = useState('');
+
+    useEffect(() => {
+        getUserName()
+        return 
+    },[]);
+
+    async function getUserName(){
+        await account.get()
+        .then(response=> setUser(response.name),
+        error => console.log(error.message))
+    };
     
     function handleSignOutSubmit(){
         account
@@ -13,7 +26,7 @@ export default function Dashboard({navigation}){
 
     return (
         <View style={styles.container}>
-            <Text>Welcome to Dashboard</Text>
+            <Text>Welcome {user}</Text>
             <View style={{margin:10}}>
         <Button title="Sign Out" onPress={() => handleSignOutSubmit()} />
       </View>

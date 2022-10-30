@@ -3,14 +3,14 @@ import { SafeAreaView, StyleSheet, View, TextInput, Button, Text, Alert } from '
 import account from '../config/index';
 
 export default function SignUp({navigation}){
-    const [alert, setAlert] = useState('');
+    const [signUpError, setSignUpError] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleSubmit(){
+    async function handleSubmit(){
         //Code to SignUp for new Account
-        account
+        await account
         .create(name,email,password,name)
         .then(() => {
                 Alert.alert(
@@ -23,7 +23,7 @@ export default function SignUp({navigation}){
                 )
         },
         (error) => {
-            setAlert(error.message);
+            setSignUpError(error.message);
         });
 
     }
@@ -31,7 +31,7 @@ export default function SignUp({navigation}){
     return(
         <SafeAreaView style={styles.container}>
             <View>
-                <Text>{alert}</Text>
+                <Text>{signUpError}</Text>
                 <TextInput 
                 placeholder='Name'
                 style={styles.input}
@@ -49,7 +49,12 @@ export default function SignUp({navigation}){
                 onChangeText={password => setPassword(password)}
                 secureTextEntry
                 />
-                <Button title='SignUp' onPress={() => handleSubmit()}/>
+                <View style={{margin:10}}>
+                    <Button title='SignUp' onPress={handleSubmit}/>
+                </View>
+                <View style={{margin:10}}>
+                    <Button title='Cancel' onPress={() => navigation.replace('SignIn')}/>
+                </View>
             </View>
         </SafeAreaView>
     );
