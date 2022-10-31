@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useState, useEffect} from "react";
 import {View, Text, StyleSheet, Button} from 'react-native';
 import account from "../config/index";
@@ -20,7 +21,10 @@ export default function Dashboard({navigation}){
     function handleSignOutSubmit(){
         account
         .deleteSession('current')
-        .then(() => navigation.replace("SignIn"),
+        .then(() => {
+            AsyncStorage.setItem('isLoggedIn', 'no')
+            navigation.replace("SignIn")
+        },
         error => console.log(error))
     }
 

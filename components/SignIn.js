@@ -11,6 +11,7 @@ import {
   Alert
 } from 'react-native';
 import account from '../config/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignIn({navigation}) {
   const [signInError, setSignInError] = useState('');
@@ -24,7 +25,8 @@ export default function SignIn({navigation}) {
     //Code to SignIn using Email and Password
     await account
     .createEmailSession(email,password)
-    .then(() => navigation.replace("Dashboard"),
+    .then(() => { AsyncStorage.setItem('isLoggedIn', 'yes')
+      navigation.replace("Dashboard")},
     (error) => setSignInError(error.message));
    }
 

@@ -8,10 +8,27 @@ import * as Linking from 'expo-linking';
 
 import {Text, StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const prefix = Linking.createURL('/');
 
 function App() {
+
+  const [initialScreen, setInitialScreen] = useState('SignIn'); 
+
+  useEffect(() => {
+    AsyncStorage.getItem('isLoggedIn')
+    .then(value => {
+      console.log('isLoggedIn : ',value);
+      if(value === 'yes'){
+        setInitialScreen('Dashboard')
+      } else {
+        setInitialScreen('SignIn')
+      }
+    },
+    error => console.log(error));
+  });
+
   const linking = {
     prefixes : [prefix],
   };
@@ -20,7 +37,8 @@ function App() {
 
   return (
     <NavigationContainer linking={linking} fallback={<Text>Loading ...</Text>}>
-    <Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName={initialScreen}>
       <Stack.Screen name='SignIn' component={SignIn} />
       <Stack.Screen name='SignUp' component={SignUp} />
       <Stack.Screen name='Dashboard' component={Dashboard} />
