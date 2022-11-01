@@ -31,6 +31,23 @@ export default function SignIn({navigation}) {
    }
 
    async function handlePasswordRecovery(){
+    /* 
+      To create password recovery, we need to setup the STMP configurations first. Please refer the below link to make your email deliverable:
+      https://appwrite.io/docs/email-delivery
+      
+      Here, I have used google as STMP server. Checkout the blog below for details:
+      https://www.hostinger.in/tutorials/how-to-use-free-google-smtp-server
+
+      Also note that we need to give permission for 3rd party app to use our mail id. Please following the below step to give permission:
+      1. Sign in to your google account
+      2. Go to Setting -> Choose 'Manage your google account' -> Click on 'Security tab'.
+      3. Under 'Signing in to Google' section, use '2-Step Verification' option. Once you choose that, you will find 'App password' option.
+      4. Click on 'App password' enter your gmail password. Under select app choose Other(Custom name) and give the name of your app. Click generate button. It will give a 16-digit password to grant permission for 3rd party app.
+      5. Set this 16-digit password as the value of _APP_SMTP_PASSWORD variable in appwrite .env file.
+
+      Once the user recieves the password reset mail, we need to redirect the user to Reset Password page of the app when the click the recovery link. We need to use the 'Deep-Linking' concept to create the link to redirect to specific screen of the app. Refer the below website to create deep-Linking URL for our app:
+      https://reactnavigation.org/docs/deep-linking/
+    */
       await account
       .createRecovery(email,'http://localhost:19006/ResetPassword')
       .then(() => {
