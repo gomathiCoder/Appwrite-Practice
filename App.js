@@ -27,7 +27,7 @@ function App() {
       }
     },
     error => console.log(error));
-  });
+  },[]);
 
   const linking = {
     prefixes : [prefix],

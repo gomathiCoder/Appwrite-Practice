@@ -10,7 +10,7 @@ export default function Dashboard({navigation}){
     useEffect(() => {
         getUserName()
         return 
-    },[]);
+    });
 
     async function getUserName(){
         await account.get()
