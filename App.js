@@ -3,6 +3,7 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Dashboard from './components/Dashboard';
 import ResetPassword from './components/ResetPassword';
+import EmployeeList from './components/EmployeeList';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Linking from 'expo-linking';
 
@@ -43,6 +44,7 @@ function App() {
       <Stack.Screen name='SignUp' component={SignUp} />
       <Stack.Screen name='Dashboard' component={Dashboard} />
       <Stack.Screen  name='ResetPassword' component={ResetPassword}/>
+      <Stack.Screen name='EmployeeList' component={EmployeeList}/>
     </Stack.Navigator>
     </NavigationContainer>
   );

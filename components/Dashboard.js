@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useState, useEffect} from "react";
 import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
+import db, { CollectionId_EmpDetails, DatabaseId } from "../config/db";
 import account from "../config/index";
 
 export default function Dashboard({navigation}){
@@ -35,8 +36,11 @@ export default function Dashboard({navigation}){
         error => console.log(error))
     }
 
-    function handleSubmit(){
+    async function handleSubmit(){
         console.log(employeeDetails);
+        await db.createDocument(DatabaseId ,CollectionId_EmpDetails,employeeDetails.EmployeeId, employeeDetails)
+        .then(response => console.log(response),
+        error => console.log(error));
     }
 
     return (
@@ -76,6 +80,8 @@ export default function Dashboard({navigation}){
                     onChangeText={value => setEmployeeDetails({...employeeDetails, JoiningDate:value})}
                 />
                 <Button title="Submit" onPress={handleSubmit}/>
+                <View style={{margin:5}}></View>
+                <Button title="Employee List" onPress={() => navigation.navigate('EmployeeList')} />
             </View>
         </View>
     )
